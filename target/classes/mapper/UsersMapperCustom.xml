@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.UsersMapperCustom" >
+	<select id="queryFriendRequestList"
+	    resultType="com.imooc.pojo.vo.FriendRequestVO"
+	    parameterType="String">
+		select 
+			sender.id as sendUserId,
+			sender.username as sendUsername,
+			sender.face_image as sendFaceImage,
+			sender.nickname as sendNickname
+		from
+			friends_request fr
+		left join 
+			users sender
+		on 
+			fr.send_user_id = sender.id
+		where 
+			fr.accept_user_id = #{acceptUserId}
+	</select>
+	<select id="queryMyFriends" 
+	    resultType="com.imooc.pojo.vo.MyFriendsVO" 
+		parameterType="String">
+		
+		select 
+			u.id as friendUserId,
+			u.username as friendUsername,
+			u.face_image as friendFaceImage,
+			u.nickname as friendNickname
+		from
+			my_friends mf
+		left join 
+			users u
+		on 
+			u.id = mf.my_friend_user_id
+		where 
+			mf.my_user_id = #{userId}
+	
+	</select>
+	
+	<!-- 批处理更新消息为已签收 -->
+	<update id="batchUpdateMsgSigned">
+	
+		update chat_msg set sign_flag = 1 where id in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	
+	</update>
+</mapper>
