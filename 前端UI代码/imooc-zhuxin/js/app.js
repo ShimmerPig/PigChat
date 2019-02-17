@@ -3,7 +3,7 @@ window.app = {
 	/**
 	 * netty服务后端发布的url地址
 	 */
-	nettyServerUrl: 'ws://shimmerpig.natapp1.cc/ws',
+	nettyServerUrl: 'ws://192.168.0.100:8088/ws',
 	//ws://192.168.0.100:8088/ws
 	
 	/**
