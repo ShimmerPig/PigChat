@@ -1,0 +1,65 @@
+{
+	"index.html": {
+		"resources": [
+			"imooc-chatlist.html"
+		],
+		"refer": [
+			"imooc-me.html",
+			"imooc-discover.html",
+			"imooc-contact.html",
+			"imooc-chatlist.html"
+		]
+	},
+	"login.html": {
+		"refer": [
+			"index.html",
+			"login.html"
+		],
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"css/registLogin/util.css",
+			"css/registLogin/main.css",
+			"css/registLogin/arrow.jpg"
+		]
+	},
+	"imooc-me.html": {
+		"refer": [
+			"myface.html",
+			"mynickname.html",
+			"myQRCode.html",
+			"login.html"
+		]
+	},
+	"myface.html": {
+		"refer": [
+			"plugin/v3.1.6/myface-uploader.html"
+		]
+	},
+	"imooc-discover.html": {
+		"refer": [
+			"searchFriends.html",
+			"scanme.html"
+		]
+	},
+	"searchFriends.html": {
+		"refer": [
+			"searchFriendsResult.html"
+		]
+	},
+	"imooc-contact.html": {
+		"refer": [
+			"chatting.html"
+		]
+	},
+	"imooc-chatlist.html": {
+		"refer": [
+			"chatting.html"
+		]
+	},
+	"scanme.html": {
+		"refer": [
+			"searchFriendsResult.html"
+		]
+	}
+}

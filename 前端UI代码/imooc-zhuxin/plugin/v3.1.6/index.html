@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="A simple jQuery image cropping plugin.">
+		<meta name="author" content="Chen Fengyuan">
+		<title>Cropper</title>
+		<script src="../../js/mui.min.js"></script>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/cropper.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+
+	<body>
+
+		<!-- Content -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<!-- <h3>Demo:</h3> -->
+					<div class="img-container">
+						<img id="image" src="../../css/registLogin/arrow.jpg" alt="Picture">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9 docs-buttons">
+					<button id="cutter" type="button" class="btn btn-success">剪裁</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+		<script src="https://fengyuanchen.github.io/js/common.js"></script>
+		<script src="js/cropper.js"></script>
+		<!--<script src="js/main.js"></script>-->
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				
+				var $image = $('#image');
+				var options = {
+					aspectRatio: 1 / 1,
+					crop: function(e) {}
+				};
+			
+				// Cropper
+				$image.cropper(options);
+
+				$("#cutter").on('click', function() {
+					var cropper = $image.data('cropper');
+					var result;
+
+					result = $image.cropper("getCroppedCanvas");
+
+					if(result) {
+						var base64Url = result.toDataURL();
+						console.log(base64Url);
+					}
+				})
+
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="A simple jQuery image cropping plugin.">
+		<meta name="author" content="Chen Fengyuan">
+		<title>Cropper</title>
+		<script src="../../js/mui.js"></script>
+		<link href="../../css/mui.css" rel="stylesheet" />
+
+		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+		<!--<link rel="stylesheet" href="css/cropper.css">-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.min.css">
+		
+		<link rel="stylesheet" href="css/main.css">
+		
+		<style type="text/css">
+			img {
+			  max-width: 100%; /* This rule is very important, please do not ignore this! */
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!-- Content -->
+		<div class="">
+			<!--<div class="row">
+				<div class="col-md-9">-->
+			<!-- <h3>Demo:</h3> -->
+			<!--<div class="img-container">
+				<img id="image" src="../../css/registLogin/arrow.jpg" alt="Picture">
+			</div>-->
+			<!--</div>
+			</div>-->
+			<div class="row">
+				<div class="col-md-9 docs-buttons">
+
+					<div class="btn-group btn-group-crop">
+						<button type="button" class="btn btn-success" data-method="getCroppedCanvas">
+								确认剪裁
+          	</button>
+          	<button id="btn_upload" type="button" class="btn btn-success">
+								确认剪裁
+          	</button>
+					</div>
+
+					<!-- Show the cropped image in modal -->
+					<!--<div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+								</div>
+								<div class="modal-body"></div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<a class="btn btn-primary" id="download" href="javascript:void(0);" download="cropped.jpg">Download</a>
+								</div>
+							</div>
+						</div>
+					</div>-->
+					<!-- /.modal -->
+					
+					<div>
+					  <img id="image" src="../../css/registLogin/arrow.jpg">
+					</div>
+
+				</div>
+				<!-- /.docs-buttons -->
+
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="../../js/jquery-1.11.0.min.js"></script>
+		<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>-->
+		<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>-->
+		<!--<script src="https://fengyuanchen.github.io/js/common.js"></script>-->
+		<!--<script src="js/cropper.js"></script>-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.0/cropper.min.js"></script>
+		<!--<script src="js/main.js"></script>-->
+
+		<script type="text/javascript">
+			mui.init();
+			
+			mui.plusReady(function(){
+				
+				var $image = $('#image');
+
+				// 3.0
+//				$image.cropper({
+//				  aspectRatio: 1 / 1,
+//				  preview: '.img-preview',
+//				  crop: function(event) {
+//				  }
+//				});
+				
+				// Get the Cropper.js instance after initialized
+//				var cropper = $image.data('cropper');
+
+				var cropper = new Cropper(image, {
+		        aspectRatio: 1 / 1,
+		        viewMode:1,
+		        crop: function (e) {
+		        }
+		    });
+
+				
+				
+				var btn_upload = document.getElementById("btn_upload");
+				btn_upload.addEventListener("tap", function(){
+					
+					$('#image').cropper('getCroppedCanvas').toBlob(function (blob) {
+						console.log(blob)
+					});
+					
+//					var result = $image.cropper(cropper.method, cropper.option, cropper.secondOption);
+//					var uploadedImageType = 'image/jpeg';
+//					console.log(typeof(result))
+//					var base64Url = result.toDataURL(uploadedImageType);
+//					console.log(base64Url)
+				});
+				
+//				var rrr = btn_upload.click();
+//				console.log(rrr);
+				
+//				mui.ajax(app.serverUrl + '/u/uploadFaceBase64?userid=1001&faseData=' + base64Url, {
+//					dataType: 'json', //服务器返回json格式数据
+//					type: 'post', //HTTP请求类型
+//					timeout: 5000, //超时时间设置为10秒；
+//					headers: {
+//						'Content-Type': 'application/json'
+//					},
+//					success: function(data) {
+//						//服务器返回响应，根据响应结果，分析是否登录成功；
+//						console.log(JSON.stringify(data));
+//
+//						if(data.status == 200) {
+//							// 成功
+//						} else {
+//							app.showToast(data.msg, "error");
+//						}
+//						
+//					}
+//				});
+			});
+			
+			
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
+
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav title">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<a id="link_submit_nickname" class="mui-icon mui-icon-right-nav mui-pull-right" 
+				style="color: white;font-size: 14px;line-height: 25px;">完成</a>
+			<h1 class="mui-title title-color">设置昵称</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-input-row">
+			    <input id="txt_nickname" type="text" class="mui-input-speech mui-input-clear" 
+			    	placeholder="修改昵称">
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui.plusReady(function() {
+				var user = app.getUserGlobalInfo();
+				var mynickname = user.nickname;
+				
+				var txt_nickname = document.getElementById("txt_nickname");
+				txt_nickname.value = mynickname;
+				
+				// 提交事件，修改昵称
+				var link_submit_nickname = document.getElementById("link_submit_nickname");
+				link_submit_nickname.addEventListener("tap", function() {
+					var newNickname = txt_nickname.value;
+					
+					if (newNickname.length < 1) {
+						app.showToast("昵称长度太短", "error");
+						return false;
+					}
+					if (newNickname.length > 8) {
+						app.showToast("昵称不能超过8位", "error");
+						return false;
+					}
+					
+					plus.nativeUI.showWaiting("请稍微...");
+					mui.ajax(app.serverUrl + "/u/setNickname",{
+						data:{
+							userId:user.id,
+							nickname:newNickname
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							plus.nativeUI.closeWaiting();
+							
+							if (data.status == 200) {
+								// 登录或者注册成功之后，保存全局用户对象到本地缓存
+								var userInfoJson = data.data;
+								app.setUserGlobalInfo(userInfoJson);
+								
+								// 触发另外一个webview的自定义事件，可以使用 mui.fire()
+								var imooc_meWebview = plus.webview.getWebviewById("imooc-me.html");
+								mui.fire(imooc_meWebview, "refresh");
+								
+								// 页面跳转
+								mui.back();
+							} else {
+								app.showToast(data.msg, "error");
+							}
+						}
+					});
+				}, { passive: false });
+				
+			});
+			
+		</script>
+
+	</body>
+
+</html>

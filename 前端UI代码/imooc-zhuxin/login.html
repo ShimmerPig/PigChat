@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/registLogin/util.css">
+		<link rel="stylesheet" type="text/css" href="css/registLogin/main.css">
+
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+
+		<style>
+			.p-t-85 {
+				padding-top: 10px;
+			}
+			
+			.p-b-70 {
+				padding-bottom: 35px;
+			}
+			
+			.m-t-85 {
+				margin-top: 15px;
+			}
+			
+			.container-login100 {
+				padding: 25px;
+			}
+			/*toast信息提示*/
+			
+			.mui-toast-container {
+				bottom: 50% !important;
+			}
+			.mui-toast-message {
+				opacity: 0.6;
+				color: #fff;
+				width: 180px;
+				padding: 70px 5px 10px 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="mui-content">
+			<div class="container-login100">
+				<div class="wrap-login100 p-t-85 p-b-20">
+					<form id="userform">
+						<span class="login100-form-title p-b-70">
+							<h5>Netty 实战</h5>
+						</span>
+						<span class="login100-form-avatar">
+							<img id="img_login_face" src="css/registLogin/arrow.jpg" alt="风间影月">
+						</span>
+
+						<div class="wrap-input100 validate-input m-t-85 m-b-35">
+							<input class="input100" type="text" id="username" name="username" placeholder="用户名">
+							<span class="focus-input100"></span>
+						</div>
+
+						<div class="wrap-input100 validate-input m-b-50">
+							<input class="input100" type="password" id="txt_password" name="password" placeholder="密码">
+							<span class="focus-input100"></span>
+						</div>
+						<div class="container-login100-form-btn">
+							<button type="submit" id="registOrLogin" class="login100-form-btn">
+								登录/注册
+							</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/app.js" ></script>
+		<script type="text/javascript">
+			
+			mui.plusReady(function() {
+				
+				// 判断用户是否注册登录过，如果本地内存有全局的用户对象，此时直接跳转到首页
+				var userInfo = app.getUserGlobalInfo();
+				if (userInfo != null) {
+					// 页面跳转
+					mui.openWindow("index.html", "index.html");
+				}
+				
+				var userform = document.getElementById("userform");
+				var username = document.getElementById("username");
+				var txt_password = document.getElementById("txt_password");
+				
+				userform.addEventListener("submit", function(e){
+					// 判断用户名是否为空，如果为空则让其获得焦点
+					if (!app.isNotNull(username.value)) {
+						// 获取焦点
+						username.focus();
+					} else if (!app.isNotNull(txt_password.value)) {
+						// 获取焦点
+						txt_password.focus();
+					} else {
+						// 判断用户名和密码的长度，进行限制
+						if (username.value.length > 12) {
+							app.showToast("用户名不能超过12", "error");
+							return false;
+						} else if (txt_password.value.length > 12) {
+							app.showToast("密码不能超过12", "error");
+							return false;
+						}
+						
+						// 获取每台手机的唯一cid
+						var cid = plus.push.getClientInfo().clientid;
+						// 与后端联调
+						mui.ajax(app.serverUrl + "/u/registOrLogin",{
+							data:{
+								username:username.value,
+								password:txt_password.value,
+								cid: cid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(JSON.stringify(data));
+								
+								username.blur();
+								txt_password.blur();
+								
+								if (data.status == 200) {
+									// 登录或者注册成功之后，保存全局用户对象到本地缓存
+									var userInfoJson = data.data;
+									app.setUserGlobalInfo(userInfoJson);
+									
+									// 页面跳转
+									mui.openWindow("index.html", "index.html");
+								} else {
+									app.showToast(data.msg, "error");
+								}
+							}
+						});
+						
+					}
+					
+					
+					// 阻止默认时间，阻止默认表单提交
+					e.preventDefault();
+				}, { passive: false });
+			})
+			
+		</script>
+
+	</body>
+
+</html>

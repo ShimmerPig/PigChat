@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="fontico/iconfont.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	mui.plusReady(function(){
+      		plus.navigator.setStatusBarStyle("light");
+      		plus.navigator.setStatusBarBackground("#C9394A");
+      	});
+    </script>
+</head>
+<body>
+	
+	<header class="mui-bar mui-bar-nav title">
+	    <h1 class="mui-title title-color" id="muxin_title"><b>慕信</b></h1>
+	</header>
+	
+	<nav class="mui-bar mui-bar-tab">
+	    <a class="mui-tab-item mui-active" tabindex="0">
+	        <span class="mui-icon iconfont icon-fire"></span>
+	        <span class="mui-tab-label">慕信</span>
+	    </a>
+	    <a class="mui-tab-item" tabindex="1">
+	        <span class="mui-icon iconfont icon-tongxunlu"></span>
+	        <span class="mui-tab-label">通讯录</span>
+	    </a>
+	    <a class="mui-tab-item" tabindex="2">
+	        <span class="mui-icon iconfont icon-zhinanzhen1"></span>
+	        <span class="mui-tab-label">发现</span>
+	    </a>
+	    <a class="mui-tab-item" tabindex="3">
+	        <span class="mui-icon iconfont icon-wode-active"></span>
+	        <span class="mui-tab-label">我</span>
+	    </a>
+	</nav>
+	
+	<script type="text/javascript">
+		
+		var muxinArray = [
+			{
+				pageId: "imooc-chatlist.html",
+				pageUrl: "imooc-chatlist.html"
+			},
+			{
+				pageId: "imooc-contact.html",
+				pageUrl: "imooc-contact.html"
+			},
+			{
+				pageId: "imooc-discover.html",
+				pageUrl: "imooc-discover.html"
+			},
+			{
+				pageId: "imooc-me.html",
+				pageUrl: "imooc-me.html"
+			}
+		];
+		
+		var muxinStyle = {
+			top: "44px",
+			bottom: "50px"
+		}
+		
+		mui.plusReady(function(){
+			
+			// 禁止返回到登录注册页面
+			mui.back = function() {
+				return false;
+			}
+			
+			// 对网络连接进行事件监听
+			netChangeSwitch();
+			
+			// 获取当前的webview对象
+			var indexWebview = plus.webview.currentWebview()
+			
+			// 向当前的主页webview追加子页的4张webview对象
+			for (var i = 0 ; i < muxinArray.length ; i ++) {
+				var muxinPage = plus.webview.create(muxinArray[i].pageUrl, 
+													muxinArray[i].pageId,
+													muxinStyle);
+				// 隐藏webview窗口
+				muxinPage.hide();
+				// 追加每一个子页面到当前主页面
+				indexWebview.append(muxinPage);
+			}
+			plus.webview.show(muxinArray[0].pageId);
+			
+			
+			// 批量绑定tap事件，展示不同的页面
+			mui(".mui-bar-tab").on("tap", "a", function() {
+				var tabindex = this.getAttribute("tabindex");
+				
+				// 显示点击的tab选项所对应的页面
+				plus.webview.show(muxinArray[tabindex].pageId, "fade-in", 200);
+				
+				// 隐藏其他的不需要的页面
+				for (var i = 0 ; i < muxinArray.length ; i ++) {
+					if (i != tabindex) {
+						plus.webview.hide(muxinArray[i].pageId, "fade-out", 200);
+					}
+				}
+			})
+			
+			// 延时加载
+			setTimeout("initData()", "1000");
+		});
+		
+		// 监听网络状态更改
+		function netChangeSwitch(){
+			document.addEventListener("netchange", function(){
+				// 网络状态获取和判断
+				var connectionStatus = plus.networkinfo.getCurrentType();
+				if (connectionStatus != 0 && connectionStatus != 1) {
+					// 重新打开网络连接
+					var muxin_title = document.getElementById("muxin_title");
+					muxin_title.innerHTML = "<b>慕信</b>";
+				} else {
+					// 关闭网络连接
+					var muxin_title = document.getElementById("muxin_title");
+					muxin_title.innerHTML = "<b>慕信(未连接)</b>";
+				}
+			}, { passive: false });
+		}
+		
+		// 预加载
+		function initData() {
+			var imooc_chatlist = plus.webview.getWebviewById("imooc-chatlist.html");
+			mui.fire(imooc_chatlist, "refresh");
+			
+			var imooc_me = plus.webview.getWebviewById("imooc-me.html");
+			mui.fire(imooc_me, "refresh");
+		}
+		
+	</script>
+</body>
+</html>

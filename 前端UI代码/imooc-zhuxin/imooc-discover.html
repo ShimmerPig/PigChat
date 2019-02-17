@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<div class="mui-content">
+		    
+		    <ul class="mui-table-view">
+		        <li class="mui-table-view-cell mui-media">
+	                <img class="mui-media-object mui-pull-left" 
+	                	src="image/friends.png" style="max-width: 24px;height: 24px;">
+	                <p class="mui-ellipsis" 
+	                	style="line-height: 24px;color: #000000;font-size: 16px;">
+	                	<span style="margin-left: 10px;">朋友圈</span>
+	                </p>
+		        </li>
+		    </ul>
+		    
+		    <br />
+		    
+		    <ul class="mui-table-view">
+		        <li id="li_add_friends" class="mui-table-view-cell mui-media">
+	                <img class="mui-media-object mui-pull-left" 
+	                	src="image/addfriends.png" style="max-width: 24px;height: 24px;">
+	                <p class="mui-ellipsis" 
+	                	style="line-height: 24px;color: #000000;font-size: 16px;">
+	                	<span style="margin-left: 10px;">添加好友</span>
+	                </p>
+		        </li>
+		        <li id="li_scanme" class="mui-table-view-cell mui-media">
+	                <img class="mui-media-object mui-pull-left" 
+	                	src="image/scanscan.png" style="max-width: 24px;height: 24px;">
+	                <p class="mui-ellipsis" 
+	                	style="line-height: 24px;color: #000000;font-size: 16px;">
+	                	<span style="margin-left: 10px;">扫一扫</span>
+	                </p>
+		        </li>
+		    </ul>
+		    
+		</div>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			mui.plusReady(function() {
+				
+				var li_add_friends = document.getElementById("li_add_friends");
+				li_add_friends.addEventListener("tap", function(){
+					mui.openWindow("searchFriends.html","searchFriends.html");
+				}, { passive: false });
+				
+				var li_scanme = document.getElementById("li_scanme");
+				li_scanme.addEventListener("tap", function(){
+					mui.openWindow("scanme.html","scanme.html");
+				}, { passive: false });
+				
+			});
+		</script>
+	</body>
+
+</html>
