@@ -1,5 +1,17 @@
 # PigChat
 Netty+SpringBoot+FastDFS+Html5实现聊天App
+
+<br>
+
+项目实现详解：
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(一)](https://segmentfault.com/a/1190000018144704)
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(二)](https://segmentfault.com/a/1190000018165542)
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(三)](https://segmentfault.com/a/1190000018175282)
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(四)](https://segmentfault.com/a/1190000018179149)
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(五)](https://segmentfault.com/a/1190000018185625)
+[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(六)](https://segmentfault.com/a/1190000018208067)
+
+
 <br><br><br>
 ## 数据库
 ![](https://github.com/ShimmerPig/PigChat/blob/master/image/1.jpg)
