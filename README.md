@@ -1,4 +1,3 @@
-[Netty+SpringBoot+FastDFS+Html5实现聊天App详解(五)](https://segmentfault.com/a/1190000018185625)
 # PigChat
 Netty+SpringBoot+FastDFS+Html5实现聊天App
 
